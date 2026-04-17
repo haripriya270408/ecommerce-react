@@ -28,7 +28,7 @@ function Filters({
         <div className="col-lg-4">
           <label className="form-label">Minimum price</label>
           <input
-            type="number"
+            type="text"
             className="form-control glass-input"
             placeholder="0"
             value={minPrice}
@@ -39,7 +39,7 @@ function Filters({
         <div className="col-lg-4">
           <label className="form-label">Maximum price</label>
           <input
-            type="number"
+            type="text"
             className="form-control glass-input"
             placeholder="200"
             value={maxPrice}
