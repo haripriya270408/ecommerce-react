@@ -1155,3 +1155,15 @@ body {
 .theme-dark .hero-btn.secondary {
   border: 1px solid rgba(255, 255, 255, 0.25);
 }
+.featured-carousel-copy {
+  color: var(--text);
+}
+
+.theme-dark .featured-carousel-copy {
+  color: #fff;
+}
+
+.theme-dark .featured-carousel-copy h3,
+.theme-dark .featured-carousel-copy span {
+  color: #fff !important;
+}
