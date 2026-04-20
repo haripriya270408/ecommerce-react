@@ -12,7 +12,7 @@ const ProductCard = ({ product, addToCart, cart, wishlist, toggleWishlist, isHig
         <button
           type="button"
           className={`wishlist-chip ${isInWishlist ? "active" : ""}`}
-          onClick={() => toggleWishlist(product.id)}
+          onClick={() => toggleWishlist(product)}
         >
           {isInWishlist ? "Saved" : "Wishlist"}
         </button>
