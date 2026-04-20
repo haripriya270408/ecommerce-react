@@ -28,12 +28,20 @@ function Filters({
         <div className="col-lg-4">
           <label className="form-label">Minimum price</label>
           <input
-            type="text"
-            className="form-control glass-input"
-            placeholder="0"
-            value={minPrice}
-            onChange={(event) => setMinPrice(event.target.value)}
-          />
+  type="number"
+  min="0"
+  className="form-control glass-input"
+  placeholder="0"
+  value={minPrice}
+  onChange={(e) => {
+    const value = e.target.value;
+
+    // allow empty OR >= 0
+    if (value === "" || Number(value) >= 0) {
+      setMinPrice(value);
+    }
+  }}
+/>
         </div>
 
         <div className="col-lg-4">

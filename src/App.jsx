@@ -7,6 +7,7 @@ import About from "./pages/about";
 import Contact from "./pages/contact";
 import Wishlist from "./pages/wishlist";
 import Cart from "./pages/cart";
+import Checkout from "./pages/checkout";
 
 function App() {
   const [search, setSearch] = useState("");
@@ -77,6 +78,10 @@ function App() {
             path="/cart"
             element={<Cart cart={cart} removeFromCart={removeFromCart} />}
           />
+          <Route
+  path="/checkout"
+  element={<Checkout cart={cart} setCart={setCart} />}
+/>
         </Routes>
       </div>
     </BrowserRouter>

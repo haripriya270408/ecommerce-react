@@ -11,8 +11,10 @@ function Shop({ search, addToCart, cart, wishlist, toggleWishlist }) {
   const [sortOption, setSortOption] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [focusedProductId, setFocusedProductId] = useState(null);
+
   const itemsPerPage = 6;
 
+  // ✅ FILTER + SEARCH + SORT
   const filteredProducts = useMemo(() => {
     const results = productsData
       .filter((product) =>
@@ -31,101 +33,106 @@ function Shop({ search, addToCart, cart, wishlist, toggleWishlist }) {
       );
 
     if (sortOption === "low-high") {
-      results.sort((first, second) => first.price - second.price);
+      results.sort((a, b) => a.price - b.price);
     } else if (sortOption === "high-low") {
-      results.sort((first, second) => second.price - first.price);
+      results.sort((a, b) => b.price - a.price);
     } else if (sortOption === "a-z") {
-      results.sort((first, second) => first.title.localeCompare(second.title));
+      results.sort((a, b) => a.title.localeCompare(b.title));
     }
 
     return results;
   }, [category, maxPrice, minPrice, search, sortOption]);
 
+  // ✅ Reset page on filter change
   useEffect(() => {
     setCurrentPage(1);
   }, [search, category, minPrice, maxPrice, sortOption]);
 
   const featuredProducts = productsData.slice(0, 8);
-  const totalPages = Math.max(1, Math.ceil(filteredProducts.length / itemsPerPage));
+
+  const totalPages = Math.max(
+    1,
+    Math.ceil(filteredProducts.length / itemsPerPage)
+  );
+
   const indexOfLast = currentPage * itemsPerPage;
   const indexOfFirst = indexOfLast - itemsPerPage;
-  const currentProducts = filteredProducts.slice(indexOfFirst, indexOfLast);
 
+  const currentProducts = filteredProducts.slice(
+    indexOfFirst,
+    indexOfLast
+  );
+
+  // ✅ Smooth scroll to product
   useEffect(() => {
-    if (!focusedProductId) {
-      return;
-    }
+    if (!focusedProductId) return;
 
     const activeProduct = currentProducts.some(
-      (product) => product.id === focusedProductId
+      (p) => p.id === focusedProductId
     );
 
-    if (!activeProduct) {
-      return;
-    }
+    if (!activeProduct) return;
 
-    const scrollToProduct = window.setTimeout(() => {
+    const scroll = setTimeout(() => {
       document
         .getElementById(`product-card-${focusedProductId}`)
         ?.scrollIntoView({ behavior: "smooth", block: "center" });
     }, 120);
 
-    const clearHighlight = window.setTimeout(() => {
+    const clear = setTimeout(() => {
       setFocusedProductId(null);
-    }, 2200);
+    }, 2000);
 
     return () => {
-      window.clearTimeout(scrollToProduct);
-      window.clearTimeout(clearHighlight);
+      clearTimeout(scroll);
+      clearTimeout(clear);
     };
   }, [currentProducts, focusedProductId]);
 
+  // ✅ Jump from carousel
   const jumpToProduct = (productId) => {
-    const productIndex = filteredProducts.findIndex((product) => product.id === productId);
+    const index = filteredProducts.findIndex((p) => p.id === productId);
+    if (index === -1) return;
 
-    if (productIndex === -1) {
-      return;
-    }
-
-    const destinationPage = Math.floor(productIndex / itemsPerPage) + 1;
+    const page = Math.floor(index / itemsPerPage) + 1;
     setFocusedProductId(productId);
-    setCurrentPage(destinationPage);
+    setCurrentPage(page);
   };
 
   return (
     <main className="container page-section">
+      {/* HEADER */}
       <section className="shop-header glass-panel">
         <div>
           <p className="eyebrow">Shop</p>
           <h1>All products in one clean, searchable view.</h1>
         </div>
         <p className="shop-summary">
-          Use the search bar, filters, and sorting controls to browse the full
-          collection. Save favorites to your wishlist or add them straight to
-          cart.
+          Use the search bar, filters, and sorting controls to browse the full collection.
         </p>
       </section>
 
-      <section className="featured-carousel-shell" aria-label="Featured products">
+      {/* FEATURED CAROUSEL */}
+      <section className="featured-carousel-shell">
         <div className="featured-carousel-track">
-          {[...featuredProducts, ...featuredProducts].map((product, index) => (
+          {[...featuredProducts, ...featuredProducts].map((product, i) => (
             <button
-              type="button"
+              key={`${product.id}-${i}`}
               className="featured-carousel-card"
-              key={`${product.id}-${index}`}
               onClick={() => jumpToProduct(product.id)}
             >
               <img src={product.image} alt={product.title} />
               <div className="featured-carousel-copy">
-                <span className="product-category">{product.category}</span>
+                <span>{product.category}</span>
                 <h3>{product.title}</h3>
-                <span className="product-price">Rs. {product.price}</span>
+                <span>₹ {product.price}</span>
               </div>
             </button>
           ))}
         </div>
       </section>
 
+      {/* FILTERS */}
       <div className="row g-4 align-items-end">
         <div className="col-lg-8">
           <Filters
@@ -145,17 +152,23 @@ function Shop({ search, addToCart, cart, wishlist, toggleWishlist }) {
         </div>
       </div>
 
+      {/* RESULTS */}
       <section className="results-bar">
         <p>
           Showing <strong>{currentProducts.length}</strong> of{" "}
-          <strong>{filteredProducts.length}</strong> products
+          <strong>{filteredProducts.length}</strong>
         </p>
       </section>
 
+      {/* PRODUCT GRID */}
       <section className="row g-4">
         {currentProducts.length > 0 ? (
           currentProducts.map((product) => (
-            <div className="col-xl-4 col-md-6" key={product.id}>
+            <div
+              className="col-xl-4 col-md-6"
+              key={product.id}
+              id={`product-card-${product.id}`}
+            >
               <ProductCard
                 product={product}
                 addToCart={addToCart}
@@ -170,29 +183,29 @@ function Shop({ search, addToCart, cart, wishlist, toggleWishlist }) {
           <div className="col-12">
             <div className="glass-panel empty-state">
               <h3>No matching products</h3>
-              <p>Try a different search term or widen the price range.</p>
             </div>
           </div>
         )}
       </section>
 
+      {/* PAGINATION */}
       <section className="pagination-shell">
         <button
-          type="button"
           className="glass-button secondary-button"
           disabled={currentPage === 1}
-          onClick={() => setCurrentPage((page) => page - 1)}
+          onClick={() => setCurrentPage((p) => p - 1)}
         >
           Previous
         </button>
+
         <span className="pagination-text">
           Page {currentPage} of {totalPages}
         </span>
+
         <button
-          type="button"
           className="glass-button secondary-button"
           disabled={currentPage === totalPages}
-          onClick={() => setCurrentPage((page) => page + 1)}
+          onClick={() => setCurrentPage((p) => p + 1)}
         >
           Next
         </button>

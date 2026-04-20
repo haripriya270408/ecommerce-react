@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 
 function Cart({ cart, removeFromCart }) {
+  const total = cart.reduce((sum, item) => sum + item.price, 0);
+
   return (
     <main className="container page-section">
       <section className="glass-panel page-hero">
@@ -21,28 +23,39 @@ function Cart({ cart, removeFromCart }) {
           </Link>
         </section>
       ) : (
-        <section className="saved-list">
-          {cart.map((item) => (
-            <article className="glass-panel saved-item" key={item.id}>
-              <img src={item.image} alt={item.title} />
-              <div className="saved-item-copy">
-                <span className="product-category">{item.category}</span>
-                <h3>{item.title}</h3>
-                <p>{item.description}</p>
-              </div>
-              <div className="saved-item-actions">
-                <span className="product-price">Rs. {item.price}</span>
-                <button
-                  type="button"
-                  className="glass-button secondary-button"
-                  onClick={() => removeFromCart(item.id)}
-                >
-                  Remove
-                </button>
-              </div>
-            </article>
-          ))}
-        </section>
+        <>
+          <section className="saved-list">
+            {cart.map((item) => (
+              <article className="glass-panel saved-item" key={item.id}>
+                <img src={item.image} alt={item.title} />
+                <div className="saved-item-copy">
+                  <span className="product-category">{item.category}</span>
+                  <h3>{item.title}</h3>
+                  <p>{item.description}</p>
+                </div>
+                <div className="saved-item-actions">
+                  <span className="product-price">Rs. {item.price}</span>
+                  <button
+                    type="button"
+                    className="glass-button secondary-button"
+                    onClick={() => removeFromCart(item.id)}
+                  >
+                    Remove
+                  </button>
+                </div>
+              </article>
+            ))}
+          </section>
+
+          {/* ✅ Footer */}
+          <section className="glass-panel mt-4 d-flex justify-content-between align-items-center">
+            <h3>Total: Rs. {total}</h3>
+
+            <Link to="/checkout" className="glass-button">
+              Proceed to Checkout
+            </Link>
+          </section>
+        </>
       )}
     </main>
   );
