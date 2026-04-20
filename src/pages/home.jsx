@@ -8,16 +8,16 @@ function Home() {
         <div className="container hero-content">
           <div className="hero-copy">
             <p className="eyebrow">Minimal style. Maximum presence.</p>
-            <h1>Build a wardrobe and workspace that look quietly luxurious.</h1>
+            <h1>Build a wardrobe that looks quietly luxurious.</h1>
             <p className="hero-text">
               Discover elevated essentials, modern accessories, and everyday
               pieces chosen for clean design and bold visual character.
             </p>
             <div className="hero-actions">
-              <Link to="/shop" className="glass-button">
-                Explore shop
+              <Link to="/shop" className="hero-btn primary">
+                Explore shop 
               </Link>
-              <Link to="/about" className="glass-button secondary-button">
+              <Link to="/about" className="hero-btn secondary">
                 About the store
               </Link>
             </div>

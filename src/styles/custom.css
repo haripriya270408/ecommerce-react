@@ -85,21 +85,19 @@ h3,
   position: sticky;
   top: 0;
   z-index: 1000;
-  padding: 1rem 0 0;
+  padding: 0; /* remove extra spacing */
 }
-
 .storefront-navbar {
-  width: min(1180px, calc(100% - 2rem));
-  margin: 0 auto;
-  padding: 1rem 1.25rem;
-  border-radius: 999px;
-  background: rgba(255, 248, 240, 0.52);
-  border: 1px solid var(--border);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  box-shadow: 0 12px 45px rgba(70, 42, 24, 0.08);
-}
+  width: 100%;
+  margin: 0;
+  padding: 0.8rem 1.5rem;
 
+  background: var(--bg-soft); /* solid clean */
+  border-bottom: 1px solid #e5e5e5;
+
+  border-radius: 0; /* remove pill shape */
+  box-shadow: none; /* remove floating effect */
+}
 .navbar-collapse {
   display: flex;
   align-items: center;
@@ -118,20 +116,14 @@ h3,
 }
 
 .nav-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1rem !important;
-  border-radius: 999px;
-  color: var(--muted);
-  font-size: 0.96rem;
-  font-weight: 700;
+  padding: 0.5rem 0.8rem !important;
+  font-weight: 600;
 }
 
 .nav-link.active,
 .nav-link:hover {
-  color: var(--text);
-  background: rgba(255, 255, 255, 0.45);
+  background: none; /* remove pill hover */
+  color: var(--accent-dark);
 }
 
 .nav-count {
@@ -212,27 +204,9 @@ textarea::placeholder {
   box-shadow: 0 0 0 0.2rem rgba(208, 160, 127, 0.12);
 }
 
-.glass-button,
-.glass-icon-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0.9rem 1.35rem;
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  border-radius: 999px;
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.45),
-    rgba(255, 246, 238, 0.22)
-  );
-  color: var(--text);
-  font-weight: 800;
-  box-shadow: 0 18px 40px rgba(84, 49, 27, 0.12);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+.storefront-navbar {
+  box-shadow: 0 2px 6px rgba(0,0,0,0.04);
 }
-
 .navbar-toggler {
   padding: 0;
   border: 0;
@@ -247,21 +221,8 @@ textarea::placeholder {
   font-weight: 800;
 }
 
-.glass-button:hover,
-.glass-icon-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 20px 45px rgba(84, 49, 27, 0.18);
-}
 
-.glass-button:disabled {
-  opacity: 0.55;
-  cursor: not-allowed;
-  transform: none;
-}
 
-.secondary-button {
-  background: rgba(255, 255, 255, 0.22);
-}
 
 .secondary-button.active,
 .wishlist-chip.active {
@@ -269,16 +230,7 @@ textarea::placeholder {
   color: var(--accent-dark);
 }
 
-.theme-dark .glass-button,
-.theme-dark .glass-icon-button {
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.1),
-    rgba(255, 255, 255, 0.04)
-  );
-  border-color: rgba(255, 255, 255, 0.1);
-  color: var(--text);
-}
+
 
 .theme-dark .nav-link.active,
 .theme-dark .nav-link:hover {
@@ -826,11 +778,10 @@ textarea::placeholder {
     align-items: stretch;
   }
 
-  .hero-section {
-    margin-top: -10rem;
-    min-height: 90vh;
-    background-position: 62% center;
-  }
+ .hero-section {
+  margin-top: 0;
+  padding-top: 4rem; /* creates space BELOW navbar */
+}
 
   .hero-content {
     padding-top: 12rem;
@@ -1044,4 +995,163 @@ textarea::placeholder {
     opacity: 1;
     transform: translateY(0);
   }
+}
+/* 🔥 DARK MODE NAVBAR FIX */
+.theme-dark .storefront-navbar {
+  background: rgba(20, 20, 25, 0.95);  /* dark but not pitch black */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* TEXT FIX */
+.theme-dark .nav-link {
+  color: #f1e9e1 !important;
+}
+
+/* HOVER */
+.theme-dark .nav-link:hover {
+  color: #d0a07f !important;
+}
+
+/* BRAND */
+.theme-dark .brand-mark {
+  color: #fff4ea;
+}
+
+/* SEARCH INPUT */
+.theme-dark .search-input {
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
+}
+
+/* CART / COUNT BADGE */
+.theme-dark .nav-count {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+}
+/* 🔥 SMALLER FONT TWEAKS */
+
+/* overall */
+body {
+  font-size: 15px;
+}
+
+/* navbar */
+.nav-link {
+  font-size: 0.92rem;
+}
+
+/* headings */
+.hero-copy h1,
+.page-hero h1,
+.shop-header h1 {
+  font-size: clamp(3rem, 6vw, 5rem);
+}
+
+/* product */
+.product-card h3 {
+  font-size: 1.7rem;
+}
+
+.product-card p {
+  font-size: 0.95rem;
+}
+
+/* badges */
+.nav-count {
+  font-size: 0.7rem;
+}
+/* ICON BUTTONS */
+.nav-icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 36px;
+  height: 36px;
+
+  border-radius: 50%;
+  border: 1px solid rgba(0,0,0,0.08);
+  background: transparent;
+
+  color: var(--text);
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+}
+
+/* hover effect */
+.nav-icon-btn:hover {
+  background: rgba(0,0,0,0.06);
+  transform: scale(1.05);
+}
+
+/* DARK MODE */
+.theme-dark .nav-icon-btn {
+  border: 1px solid rgba(255,255,255,0.15);
+}
+
+.theme-dark .nav-icon-btn:hover {
+  background: rgba(255,255,255,0.1);
+}
+/* navbar spacing fix */
+.storefront-navbar .container {
+  display: flex;
+  align-items: center;
+}
+
+/* logo spacing */
+.brand-mark {
+  margin-right: 20px;
+}
+
+/* right side spacing */
+.nav-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+/* 🔥 HERO BUTTON UPGRADE */
+.hero-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.4rem;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  border: 1px solid transparent;
+}
+
+/* PRIMARY (Explore Shop) */
+.hero-btn.primary {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 6px 20px rgba(141, 95, 68, 0.25);
+}
+
+.hero-btn.primary:hover {
+  background: var(--accent-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(141, 95, 68, 0.35);
+}
+
+/* SECONDARY (About) */
+.hero-btn.secondary {
+  background: transparent;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.hero-btn.secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+/* DARK MODE FIX */
+.theme-dark .hero-btn.secondary {
+  border: 1px solid rgba(255, 255, 255, 0.25);
 }
